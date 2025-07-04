@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Touchable } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Touchable, Image } from 'react-native';
 import { useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons';
+import illustration from '../assets/images/illustration.jpg'
 
 const HomeScreen: React.FC = () => {
     const router = useRouter();
@@ -14,18 +15,24 @@ const HomeScreen: React.FC = () => {
                     <Ionicons name="search" size={20} color="#fff" style={styles.searchIcon} />
                     <TextInput placeholder="Search" placeholderTextColor="#ccc" style={styles.searchInput} />
                 </View>
-                <TouchableOpacity onPress={()=>(router.push('/(tabs)/profile'))}>
+                <TouchableOpacity onPress={() => (router.push('/(tabs)/profile'))}>
                     <Ionicons name="person-circle" size={48} color="#fff" style={styles.profileIcon} />
                 </TouchableOpacity>
 
             </View>
 
-            {/* Illustration Placeholder */}
-            <View style={styles.illustration} />
+
+            <View style={styles.illustrationBox}>
+                <Image
+                    source={illustration}
+                    style={styles.illustration}
+                    resizeMode="cover" // or "contain" if you want full image in box
+                />
+            </View>
 
             {/* Buttons */}
             <View style={styles.buttonsContainer}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button}  onPress={() => router.push('/scanner')}>
                     <Ionicons name="qr-code" size={20} color="#fff" />
                     <Text style={styles.buttonText}>Scan QR</Text>
                 </TouchableOpacity>
@@ -108,12 +115,20 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginTop: -5,
     },
-    illustration: {
-        height: 150,
+    illustrationBox: {
+        width: '100%',
+        height: 200, // or any fixed height you want
         backgroundColor: '#222',
         borderRadius: 10,
+        overflow: 'hidden',
         marginBottom: 20,
     },
+
+    illustration: {
+        width: '100%',
+        height: '100%',
+    },
+
     buttonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',

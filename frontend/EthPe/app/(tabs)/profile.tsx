@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 
@@ -12,7 +12,21 @@ const ProfileScreen: React.FC = () => {
     router.replace('/(auth)/sign-in');
   };
 
-    return ( <Button title="Logout" onPress={handleLogout} /> );
+    return ( 
+        <View style={styles.container}>
+
+            <Button title="Logout" onPress={handleLogout} />
+
+        </View>
+ );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        alignItems:'center',
+        justifyContent:'center',
+    }
+})
  
 export default ProfileScreen;
