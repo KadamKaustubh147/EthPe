@@ -1,60 +1,50 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useRouter, Link } from 'expo-router';
-import { login } from '../../lib/api'; // adjust path
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { login } from '../../lib/api';
 
 const SignInScreen: React.FC = () => {
   const router = useRouter();
-  const [email, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     try {
       const res = await login(email, password);
-      console.log(res);
 
-      // Store auth token here (e.g., AsyncStorage)
-      // Then navigate:
+      // Save token and email
+      await AsyncStorage.setItem('token', res.token);
+      await AsyncStorage.setItem('email', res.email);
+
+      // Navigate to protected tabs
       router.replace('/(tabs)/home');
     } catch (err: any) {
-      Alert.alert('Login failed', err.message);
+      console.error(err);
+      Alert.alert('Login failed', err.response?.data?.message || 'An error occurred');
     }
   };
 
   return (
     <View style={styles.container}>
-      {/* Logo */}
-      {/* <View style={styles.logoContainer}>
-        <Text style={styles.logoText}>Logo</Text>
-      </View> */}
+      <Text style={styles.title}>Sign In</Text>
 
-      {/* Title */}
-      <Text style={styles.title}>EthPe</Text>
-
-      {/* Welcome Text */}
-      <Text style={styles.welcomeText}>
-        Welcome to EthPe
-      </Text>
-
-      {/* Sign In */}
-      <Text style={styles.signInText}>Sign in</Text>
-
-      <Text style={styles.label}>Username</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter Email"
-        value={email}
-        onChangeText={setUsername}
+        placeholder="Email"
         placeholderTextColor="#ccc"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
 
-      <Text style={styles.label}>Password</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter Password"
+        placeholder="Password"
+        placeholderTextColor="#ccc"
         value={password}
         onChangeText={setPassword}
-        placeholderTextColor="#ccc"
         secureTextEntry
       />
 
@@ -62,22 +52,16 @@ const SignInScreen: React.FC = () => {
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
 
-
-      {/* Divider */}
-      <View style={styles.dividerContainer}>
-        <View style={styles.divider} />
-        <Text style={styles.orText}>or</Text>
-        <View style={styles.divider} />
-      </View>
-
-      {/* Create Account */}
       <Text style={styles.createAccountText}>
-        If you don't have account then,
-        <Text style={styles.createAccountLink}> Create account</Text>
+        No account?{' '}
+        <Link href="/(auth)/sign-up" style={styles.createAccountLink}>
+          Register
+        </Link>
       </Text>
     </View>
   );
 };
+
 
 
 const styles = StyleSheet.create({

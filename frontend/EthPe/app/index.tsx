@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect } from 'expo-router';
-// import AsyncStorage from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const IndexScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,13 +16,13 @@ const IndexScreen: React.FC = () => {
     checkToken();
   }, []);
 
-  if (isLoading) return null; // Or splash screen
+  if (isLoading) return null;
 
   if (isLoggedIn) {
     return <Redirect href="/(tabs)/home" />;
-  } else {
-    return <Redirect href="/(auth)/sign-in" />;
   }
+
+  return <Redirect href="/(auth)/sign-in" />;
 };
 
 export default IndexScreen;
