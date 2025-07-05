@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import { useRouter, Link } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { login } from '../../lib/api';
+import logo from '../assets/logo.png'
 
 const SignInScreen: React.FC = () => {
   const router = useRouter();
@@ -27,6 +28,11 @@ const SignInScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Image source={logo} style={styles.logo} />
+      </View>
+
+      <Text style={styles.text}>Welcome to EthPe, please login to continue</Text>
       <Text style={styles.title}>Sign In</Text>
 
       <TextInput
@@ -65,20 +71,24 @@ const SignInScreen: React.FC = () => {
 
 
 const styles = StyleSheet.create({
+  logo: {
+    width: 200,
+    height: 200
+  },
+  logoContainer: {
+    // backgroundColor: 'red',
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 30,
+  },
   container: {
     flex: 1,
     backgroundColor: '#0c0000',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-  },
-  logoContainer: {
-    backgroundColor: '#ccc',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 30,
   },
   logoText: {
     fontSize: 18,
@@ -154,6 +164,10 @@ const styles = StyleSheet.create({
   createAccountLink: {
     color: 'blue',
   },
+  text: {
+    color: 'white',
+    fontSize: 18,
+  }
 });
 
 export default SignInScreen;

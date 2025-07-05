@@ -5,11 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Image,
   Alert,
 } from 'react-native';
 import { useRouter, Link } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { register } from '../../lib/api';
+import logo from '../assets/logo.png'
 
 const SignUpScreen: React.FC = () => {
   const router = useRouter();
@@ -47,15 +49,13 @@ const SignUpScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Text style={styles.logoText}>Logo</Text>
+        <Image source={logo} style={styles.logo}/>
       </View>
 
       <Text style={styles.title}>EthPe</Text>
 
       <Text style={styles.welcomeText}>
-        welcome, here you can .........
-        {'\n'}..............................................................
-        {'\n'}..............................................................
+        Welcome to EthPe
       </Text>
 
       <Text style={styles.signInText}>Sign up</Text>
@@ -113,6 +113,10 @@ const SignUpScreen: React.FC = () => {
 export default SignUpScreen;
 
 const styles = StyleSheet.create({
+  logo:{
+    width:200,
+    height:200
+  },
   container: {
     flex: 1,
     backgroundColor: '#0c0000',
@@ -121,7 +125,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   logoContainer: {
-    backgroundColor: '#ccc',
+    // backgroundColor: '#ccc',
     width: 100,
     height: 100,
     justifyContent: 'center',
