@@ -18,9 +18,12 @@ const createTransaction = async (req, res) => {
 
 const getRecentTransactions = async (req, res) => {
   try {
+
+
+    const limit = parseInt(req.query.limit) || 10;
     const transactions = await Transaction.find()
       .sort({ createdAt: -1 })
-      .limit(10)
+      .limit(limit)
       .populate('sender', 'name email')
       .populate('receiver', 'name email');
 
@@ -46,8 +49,28 @@ const getTransactionById = async (req, res) => {
   }
 };
 
+const getTransactionsByUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const limit = parseInt(req.query.limit) || 30; // Default to 30 if not given
+
+    const transactions = await Transaction.find({
+      $or: [{ sender: userId }, { receiver: userId }]
+    })
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .populate('sender', 'name email')
+      .populate('receiver', 'name email');
+
+    res.json(transactions);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch user's transactions", details: err.message });
+  }
+};
+
+
 
 module.exports = {
   createTransaction,
-  getRecentTransactions,getTransactionById
+  getRecentTransactions,getTransactionById,getTransactionsByUser
 };
