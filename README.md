@@ -154,5 +154,3 @@ Built with 💙 by the EthPe team
 
 ---
 
-Let me know if you'd like to include [GitHub badges](f) or [screenshots of the app](f).
-
